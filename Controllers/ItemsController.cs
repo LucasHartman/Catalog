@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Catalog.Dtos;
 using Catalog.Model;
 using Catalog.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
 
 namespace Catalog.Controllers
@@ -22,16 +24,17 @@ namespace Catalog.Controllers
             this.repository = repository;
         }
 
+
         [HttpGet]
-        public IEnumerable<Item> GetItems()
-        {
-            var items = repository.GetItems();
+        public IEnumerable<ItemDto> GetItems()
+        { // updated: 55:00
+            var items = repository.GetItems().Select( item => item.AsDto());
             return items;
         }
 
         // timecode: 36:00
         [HttpGet("{id}")]
-        public ActionResult<Item> GetItem(Guid id)
+        public ActionResult<ItemDto> GetItem(Guid id)
         {
             var item = repository.GetItem(id);
 
@@ -39,7 +42,7 @@ namespace Catalog.Controllers
             {
                 return NotFound();
             }
-            return item;
+            return item.AsDto();
 
         }
 
