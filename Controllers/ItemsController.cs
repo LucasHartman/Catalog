@@ -14,11 +14,12 @@ namespace Catalog.Controllers
     [Route("[controller]")]
     public class ItemsController : ControllerBase
     {
-        private readonly InMemItemsRepository repository;
+        private readonly IItemsRepository repository;
 
-        public ItemsController()
+        // Dependency Injection (48:00)
+        public ItemsController(IItemsRepository repository)
         { // Constructor
-            repository = new InMemItemsRepository();
+            this.repository = repository;
         }
 
         [HttpGet]
