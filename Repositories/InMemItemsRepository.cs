@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Features;
 using Catalog.Model;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Data.Common;
 
 namespace Catalog.Repositories
 {
@@ -27,6 +28,16 @@ namespace Catalog.Repositories
             return items.Where(item => item.Id == id).SingleOrDefault();
         }
 
+        public void CreateItem(Item item)
+        {
+            items.Add(item);
+        }
 
+        // 1:10
+        public void UpdateItem(Item item)
+        {
+            var index = items.FindIndex(existingItem => existingItem.Id == item.Id);
+            items[index] = item; 
+        }
     }
 }
